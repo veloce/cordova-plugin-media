@@ -19,116 +19,106 @@
 
 # org.apache.cordova.media
 
-This plugin provides the ability to record and play back audio files on a device.
+Plugin daje możliwość nagrywania i odtwarzania plików audio na urządzeniu.
 
-__NOTE__: The current implementation does not adhere to a W3C
-specification for media capture, and is provided for convenience only.
-A future implementation will adhere to the latest W3C specification
-and may deprecate the current APIs.
+**Uwaga**: Obecna implementacja nie stosować się do specyfikacji W3C do przechwytywania mediów i jest dostarczane jedynie dla wygody. Przyszłej realizacji będą przylegać do najnowszych specyfikacji W3C i może potępiać bieżące interfejsów API.
 
-This plugin defines a global `Media` Constructor.
-
-Although in the global scope, it is not available until after the `deviceready` event.
-
-    document.addEventListener("deviceready", onDeviceReady, false);
-    function onDeviceReady() {
-        console.log(Media);
-    }
-
-## Installation
+## Instalacja
 
     cordova plugin add org.apache.cordova.media
+    
 
-## Supported Platforms
+## Obsługiwane platformy
 
-- Android
-- BlackBerry 10
-- iOS
-- Windows Phone 7 and 8
-- Tizen
-- Windows
+*   Android
+*   BlackBerry 10
+*   iOS
+*   Windows Phone 7 i 8
+*   Tizen
+*   Windows 8
 
-## Windows Phone Quirks
+## Windows Phone dziwactwa
 
-- Only one media file can be played back at a time.
+*   Tylko jeden plik mogą być zagrany w tył w czasie.
 
-- There are strict restrictions on how your application interacts with other media. See the [Microsoft documentation for details][url].
+*   Istnieją ścisłe ograniczenia na jak aplikacja współdziała z innymi mediami. Zobacz [Microsoft dokumentacji szczegóły][1].
 
-[url]: http://msdn.microsoft.com/en-us/library/windowsphone/develop/hh184838(v=vs.92).aspx
+ [1]: http://msdn.microsoft.com/en-us/library/windowsphone/develop/hh184838(v=vs.92).aspx
 
 ## Media
 
     var media = new Media(src, mediaSuccess, [mediaError], [mediaStatus]);
+    
 
-### Parameters
+### Parametry
 
-- __src__: A URI containing the audio content. _(DOMString)_
+*   **src**: URI zawierający zawartość audio. *(DOMString)*
 
-- __mediaSuccess__: (Optional) The callback that executes after a `Media` object has completed the current play, record, or stop action. _(Function)_
+*   **mediaSuccess**: (opcjonalne) wywołania zwrotnego, który wykonuje po `Media` obiektu została zakończona bieżącej gry, rekordu lub działania stop. *(Funkcja)*
 
-- __mediaError__: (Optional) The callback that executes if an error occurs. _(Function)_
+*   **mediaError**: (opcjonalne) wywołania zwrotnego, która wykonuje w przypadku wystąpienia błędu. *(Funkcja)*
 
-- __mediaStatus__: (Optional) The callback that executes to indicate status changes. _(Function)_
+*   **mediaStatus**: (opcjonalne) wywołania zwrotnego, który wykonuje wskazać zmiany statusu. *(Funkcja)*
 
-### Constants
+### Stałe
 
-The following constants are reported as the only parameter to the
-`mediaStatus` callback:
+Poniższe stałe są zgłaszane jako parametr tylko do `mediaStatus` wywołania zwrotnego:
 
-- `Media.MEDIA_NONE`     = 0;
-- `Media.MEDIA_STARTING` = 1;
-- `Media.MEDIA_RUNNING`  = 2;
-- `Media.MEDIA_PAUSED`   = 3;
-- `Media.MEDIA_STOPPED`  = 4;
+*   `Media.MEDIA_NONE`= 0;
+*   `Media.MEDIA_STARTING`= 1;
+*   `Media.MEDIA_RUNNING`= 2;
+*   `Media.MEDIA_PAUSED`= 3;
+*   `Media.MEDIA_STOPPED`= 4;
 
-### Methods
+### Metody
 
-- `media.getCurrentPosition`: Returns the current position within an audio file.
+*   `media.getCurrentPosition`: Zwraca bieżącej pozycji w pliku audio.
 
-- `media.getDuration`: Returns the duration of an audio file.
+*   `media.getDuration`: Zwraca czas trwania pliku audio.
 
-- `media.play`: Start or resume playing an audio file.
+*   `media.play`: Rozpoczęcie lub wznowienie odtwarzania pliku audio.
 
-- `media.pause`: Pause playback of an audio file.
+*   `media.pause`: Wstrzymanie odtwarzania pliku audio.
 
-- `media.release`: Releases the underlying operating system's audio resources.
+*   `media.release`: Zwalnia zasoby audio system operacyjny.
 
-- `media.seekTo`: Moves the position within the audio file.
+*   `media.seekTo`: Porusza się pozycji w pliku audio.
 
-- `media.setVolume`: Set the volume for audio playback.
+*   `media.setVolume`: Ustaw głośność odtwarzania dźwięku.
 
-- `media.startRecord`: Start recording an audio file.
+*   `media.startRecord`: Nagrywanie pliku audio.
 
-- `media.stopRecord`: Stop recording an audio file.
+*   `media.stopRecord`: Zatrzymaj nagrywanie pliku audio.
 
-- `media.stop`: Stop playing an audio file.
+*   `media.stop`: Zatrzymania odtwarzania pliku audio.
 
-### Additional ReadOnly Parameters
+### Parametry dodatkowe ReadOnly
 
-- __position__: The position within the audio playback, in seconds.
-    - Not automatically updated during play; call `getCurrentPosition` to update.
+*   **stanowisko**: stanowisko w odtwarzaniu dźwięku, w kilka sekund.
+    
+    *   Nie jest automatycznie aktualizowana podczas odtwarzania; wywołanie `getCurrentPosition` aktualizacji.
 
-- __duration__: The duration of the media, in seconds.
-
+*   **czas**: trwania mediów, w kilka sekund.
 
 ## media.getCurrentPosition
 
-Returns the current position within an audio file.  Also updates the `Media` object's `position` parameter.
+Zwraca bieżącą pozycję w pliku audio. Również aktualizacje `Media` obiektu `position` parametr.
 
     media.getCurrentPosition(mediaSuccess, [mediaError]);
+    
 
-### Parameters
+### Parametry
 
-- __mediaSuccess__: The callback that is passed the current position in seconds.
+*   **mediaSuccess**: wywołania zwrotnego, który jest przekazywany bieżącej pozycji w kilka sekund.
 
-- __mediaError__: (Optional) The callback to execute if an error occurs.
+*   **mediaError**: (opcjonalne) wywołanie zwrotne do wykonać, jeśli wystąpi błąd.
 
-### Quick Example
+### Szybki przykład
 
     // Audio player
     //
     var my_media = new Media(src, onSuccess, onError);
-
+    
     // Update media position every second
     var mediaTimer = setInterval(function () {
         // get media position
@@ -145,21 +135,21 @@ Returns the current position within an audio file.  Also updates the `Media` obj
             }
         );
     }, 1000);
-
+    
 
 ## media.getDuration
 
-Returns the duration of an audio file in seconds. If the duration is unknown, it returns a value of -1.
-
+Zwraca czas trwania pliku audio w kilka sekund. Jeśli czas trwania jest nieznane, to zwraca wartość -1.
 
     media.getDuration();
+    
 
-### Quick Example
+### Szybki przykład
 
     // Audio player
     //
     var my_media = new Media(src, onSuccess, onError);
-
+    
     // Get duration
     var counter = 0;
     var timerDur = setInterval(function() {
@@ -173,16 +163,16 @@ Returns the duration of an audio file in seconds. If the duration is unknown, it
             document.getElementById('audio_duration').innerHTML = (dur) + " sec";
         }
     }, 100);
+    
 
+## Media.Pause
 
-## media.pause
-
-Pauses playing an audio file.
+Wstrzymuje odtwarzanie pliku audio.
 
     media.pause();
+    
 
-
-### Quick Example
+### Szybki przykład
 
     // Play audio
     //
@@ -194,25 +184,25 @@ Pauses playing an audio file.
             // error callback
             function (err) { console.log("playAudio():Audio Error: " + err); }
         );
-
+    
         // Play audio
         my_media.play();
-
+    
         // Pause after 10 seconds
         setTimeout(function () {
             media.pause();
         }, 10000);
     }
+    
 
+## Media.play
 
-## media.play
-
-Starts or resumes playing an audio file.
+Rozpoczyna się lub wznawia odtwarzanie pliku audio.
 
     media.play();
+    
 
-
-### Quick Example
+### Szybki przykład
 
     // Play audio
     //
@@ -231,64 +221,58 @@ Starts or resumes playing an audio file.
         // Play audio
         my_media.play();
     }
+    
 
+### Dziwactwa iOS
 
-### iOS Quirks
-
-- __numberOfLoops__: Pass this option to the `play` method to specify
-  the number of times you want the media file to play, e.g.:
-
+*   **numberOfLoops**: przekazać tę opcję, aby `play` Metoda, aby określić ile razy chcesz, pliku multimedialnego do gry, np.:
+    
         var myMedia = new Media("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3")
         myMedia.play({ numberOfLoops: 2 })
+        
 
-- __playAudioWhenScreenIsLocked__: Pass in this option to the `play`
-  method to specify whether you want to allow playback when the screen
-  is locked.  If set to `true` (the default value), the state of the
-  hardware mute button is ignored, e.g.:
-
+*   **playAudioWhenScreenIsLocked**: przekazać tę opcję, aby `play` Metoda, aby określić, czy chcesz umożliwić odtwarzanie, gdy ekran jest zablokowana. Jeśli zestaw `true` (wartość domyślna), stan przycisku Wycisz sprzętu jest ignorowane, np.:
+    
         var myMedia = new Media("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3")
         myMedia.play({ playAudioWhenScreenIsLocked : false })
+        
 
-- __order of file search__: When only a file name or simple path is
-  provided, iOS searches in the `www` directory for the file, then in
-  the application's `documents/tmp` directory:
-
+*   **kolejność wyszukiwania plików**: gdy tylko nazwa pliku lub ścieżka prosta pod warunkiem, iOS wyszukiwania w `www` katalogu, pliku, a następnie w aplikacji `documents/tmp` katalogu:
+    
         var myMedia = new Media("audio/beer.mp3")
         myMedia.play()  // first looks for file in www/audio/beer.mp3 then in <application>/documents/tmp/audio/beer.mp3
+        
 
 ## media.release
 
-Releases the underlying operating system's audio resources.
-This is particularly important for Android, since there are a finite amount of
-OpenCore instances for media playback. Applications should call the `release`
-function for any `Media` resource that is no longer needed.
+Zwalnia zasoby audio system operacyjny. Jest to szczególnie ważne dla systemu Android, ponieważ istnieje skończona ilość podstawie OpenCore wystąpień do odtwarzania multimediów. Aplikacje powinny wywoływać `release` funkcja dla każdego `Media` zasób, który nie jest już potrzebna.
 
     media.release();
+    
 
-
-### Quick Example
+### Szybki przykład
 
     // Audio player
     //
     var my_media = new Media(src, onSuccess, onError);
-
+    
     my_media.play();
     my_media.stop();
     my_media.release();
-
+    
 
 ## media.seekTo
 
-Sets the current position within an audio file.
+Ustawia bieżącej pozycji w pliku audio.
 
     media.seekTo(milliseconds);
+    
 
-### Parameters
+### Parametry
 
-- __milliseconds__: The position to set the playback position within the audio, in milliseconds.
+*   **milisekund**: stanowisko ustala pozycję odtwarzania w audio, w milisekundach.
 
-
-### Quick Example
+### Szybki przykład
 
     // Audio player
     //
@@ -298,28 +282,29 @@ Sets the current position within an audio file.
     setTimeout(function() {
         my_media.seekTo(10000);
     }, 5000);
+    
 
+### Jeżyna 10 dziwactwa
 
-### BlackBerry 10 Quirks
-
-- Not supported on BlackBerry OS 5 devices.
+*   Nie obsługiwane na urządzeniach BlackBerry OS w wersji 5.
 
 ## media.setVolume
 
-Set the volume for an audio file.
+Ustaw głośność pliku audio.
 
     media.setVolume(volume);
+    
 
-### Parameters
+### Parametry
 
-- __volume__: The volume to set for playback.  The value must be within the range of 0.0 to 1.0.
+*   **wielkość**: wielkość ustawić odtwarzanie. Wartość musi być z zakresu od 0.0 do 1.0.
 
-### Supported Platforms
+### Obsługiwane platformy
 
-- Android
-- iOS
+*   Android
+*   iOS
 
-### Quick Example
+### Szybki przykład
 
     // Play audio
     //
@@ -334,36 +319,37 @@ Set the volume for an audio file.
             function(err) {
                 console.log("playAudio():Audio Error: "+err);
         });
-
+    
         // Play audio
         my_media.play();
-
+    
         // Mute volume after 2 seconds
         setTimeout(function() {
             my_media.setVolume('0.0');
         }, 2000);
-
+    
         // Set volume to 1.0 after 5 seconds
         setTimeout(function() {
             my_media.setVolume('1.0');
         }, 5000);
     }
-
+    
 
 ## media.startRecord
 
-Starts recording an audio file.
+Rozpoczyna nagrywanie pliku audio.
 
     media.startRecord();
+    
 
-### Supported Platforms
+### Obsługiwane platformy
 
-- Android
-- iOS
-- Windows Phone 7 and 8
-- Windows
+*   Android
+*   iOS
+*   Windows Phone 7 i 8
+*   Windows 8
 
-### Quick Example
+### Szybki przykład
 
     // Record audio
     //
@@ -374,49 +360,50 @@ Starts recording an audio file.
             function() {
                 console.log("recordAudio():Audio Success");
             },
-
+    
             // error callback
             function(err) {
                 console.log("recordAudio():Audio Error: "+ err.code);
             });
-
+    
         // Record audio
         mediaRec.startRecord();
     }
+    
 
+### Dziwactwa Androida
 
-### Android Quirks
+*   Urządzenia z systemem Android nagrywanie dźwięku w formacie Adaptive Multi-Rate. Określony plik powinien kończyć się rozszerzeniem *AMR* .
 
-- Android devices record audio in Adaptive Multi-Rate format. The specified file should end with a _.amr_ extension.
-- The hardware volume controls are wired up to the media volume while any Media objects are alive. Once the last created Media object has `release()` called on it, the volume controls revert to their default behaviour. The controls are also reset on page navigation, as this releases all Media objects.
+### Dziwactwa iOS
 
-### iOS Quirks
+*   iOS tylko rekordy do plików typu *.wav* i zwraca błąd, jeśli nazwa pliku rozszerzenie jest nie prawidłowe.
 
-- iOS only records to files of type _.wav_ and returns an error if the file name extension is not correct.
+*   Jeśli nie podano pełną ścieżkę, nagrywanie jest umieszczony w aplikacji `documents/tmp` katalogu. To mogą być dostępne za pośrednictwem `File` za pomocą interfejsu API `LocalFileSystem.TEMPORARY` . Każdy podkatalog określony w rekordowym czasie musi już istnieć.
 
-- If a full path is not provided, the recording is placed in the application's `documents/tmp` directory. This can be accessed via the `File` API using `LocalFileSystem.TEMPORARY`. Any subdirectory specified at record time must already exist.
-
-- Files can be recorded and played back using the documents URI:
-
+*   Pliki mogą być zapisywane i grał z powrotem za pomocą dokumentów URI:
+    
         var myMedia = new Media("documents://beer.mp3")
+        
 
-### Windows Quirks
+### Windows 8 dziwactwa
 
-- If a full path is not provided, the recording is placed in the AppData/temp directory. This can be accessed via the `File` API using `LocalFileSystem.TEMPORARY` or 'ms-appdata:///temp/<filename>' URI.
+*   Jeśli nie podano pełną ścieżkę, nagrywanie jest umieszczony w katalogu AppData/temp. To mogą być dostępne za pośrednictwem `Plik` Za pomocą interfejsu API `LocalFileSystem.TEMPORARY` lub "ms-appdata: temp / / / /<filename>"URI.
 
-- Any subdirectory specified at record time must already exist.
+*   Każdy podkatalog określony w rekordowym czasie musi już istnieć.
 
-### Tizen Quirks
+### Dziwactwa Tizen
 
-- Not supported on Tizen devices.
+*   Nie obsługiwane na Tizen urządzenia.
 
 ## media.stop
 
-Stops playing an audio file.
+Zatrzymuje odtwarzanie pliku audio.
 
-    media.stop();
+    Media.stop();
+    
 
-### Quick Example
+### Szybki przykład
 
     // Play audio
     //
@@ -432,31 +419,32 @@ Stops playing an audio file.
                 console.log("playAudio():Audio Error: "+err);
             }
         );
-
+    
         // Play audio
         my_media.play();
-
+    
         // Pause after 10 seconds
         setTimeout(function() {
             my_media.stop();
         }, 10000);
     }
-
+    
 
 ## media.stopRecord
 
-Stops recording an audio file.
+Zatrzymuje nagrywanie pliku audio.
 
     media.stopRecord();
+    
 
-### Supported Platforms
+### Obsługiwane platformy
 
-- Android
-- iOS
-- Windows Phone 7 and 8
-- Windows
+*   Android
+*   iOS
+*   Windows Phone 7 i 8
+*   Windows 8
 
-### Quick Example
+### Szybki przykład
 
     // Record audio
     //
@@ -467,42 +455,40 @@ Stops recording an audio file.
             function() {
                 console.log("recordAudio():Audio Success");
             },
-
+    
             // error callback
             function(err) {
                 console.log("recordAudio():Audio Error: "+ err.code);
             }
         );
-
+    
         // Record audio
         mediaRec.startRecord();
-
+    
         // Stop recording after 10 seconds
         setTimeout(function() {
             mediaRec.stopRecord();
         }, 10000);
     }
+    
 
+### Dziwactwa Tizen
 
-### Tizen Quirks
-
-- Not supported on Tizen devices.
+*   Nie obsługiwane na Tizen urządzenia.
 
 ## MediaError
 
-A `MediaError` object is returned to the `mediaError` callback
-function when an error occurs.
+A `MediaError` obiekt jest zwracany do `mediaError` funkcji wywołania zwrotnego, gdy wystąpi błąd.
 
-### Properties
+### Właściwości
 
-- __code__: One of the predefined error codes listed below.
+*   **Kod**: jeden z kodów błędów wstępnie zdefiniowanych poniżej.
 
-- __message__: An error message describing the details of the error.
+*   **wiadomość**: komunikat o błędzie, opisując szczegóły błędu.
 
-### Constants
+### Stałe
 
-- `MediaError.MEDIA_ERR_ABORTED`        = 1
-- `MediaError.MEDIA_ERR_NETWORK`        = 2
-- `MediaError.MEDIA_ERR_DECODE`         = 3
-- `MediaError.MEDIA_ERR_NONE_SUPPORTED` = 4
-
+*   `MediaError.MEDIA_ERR_ABORTED`= 1
+*   `MediaError.MEDIA_ERR_NETWORK`= 2
+*   `MediaError.MEDIA_ERR_DECODE`= 3
+*   `MediaError.MEDIA_ERR_NONE_SUPPORTED`= 4
